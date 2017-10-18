@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title> exec iframe function </title>
+</head>
+<body>
+<script type="text/javascript">
+//    /**
+//     * 在client端使用方式
+//     * @param method 需要调用的方法名
+//     * @param params 需要传入的参数，字符串。支持json
+//     * @param callback 回调函数名，字符串。需要回调client端的方法。
+//     */
+//    function execServer(method, params, callback) {
+//        if (typeof execFrame === 'undefined') {
+//            execFrame = document.createElement('iframe');
+//            execFrame.name = 'tmpFrame';
+//            execFrame.src = 'http://10.5.5.231:8080/static/execClient .html?method=' + method + '&&params=' + params + '&&callback=' + callback;
+//            execFrame.style.display = 'none';
+//            document.body.appendChild(execFrame);
+//        } else {
+//            execFrame.src = 'http://10.5.5.231:8080/static/execClient.html?method=' + method + '&&params=' + params + '&&callback=' + callback + '&&v=' + Math.random();
+//        }
+//    }
+//    execServer('saveInfo', 'this is param.', 'callback');
+
+    function getValueByPath(object, prop) {
+        prop = prop || '';
+        const paths = prop.split('.');
+        let current = object;
+        let result = null;
+        for (let i = 0, j = paths.length; i < j; i++) {
+            const path = paths[i];
+            if (!current) break;
+
+            if (i === j - 1) {
+                result = current[path];
+                break;
+            }
+            current = current[path];
+        }
+        return result;
+    }
+    function getUrlParam(name) {
+        const reg = new RegExp("(^|&|#|/?)" + name + "=([^&]*)(&|$)", "i");
+        const r = window.location.href.substr(1).match(reg);
+        if (r != null) {
+            let result = unescape(r[2]);
+            if (result.indexOf('#') > 0) {
+                result = result.slice(0, result.indexOf('#'));
+            }
+            return result;
+        }
+        return null;
+    }
+    var method = getUrlParam('method');
+    var params = getUrlParam('params');
+    var callbackName = getUrlParam('callback');
+    var func = getValueByPath(parent.parent, method);
+    var callback = getValueByPath(parent, callbackName);
+    func && func(params, callback);
+</script>
+</body>
+</html>
