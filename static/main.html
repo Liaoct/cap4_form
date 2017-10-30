@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>cap4.0</title>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+<style>
+    section, button{
+        width: 60%;
+        margin: 50px auto;
+    }
+    #goCreateForm, #goBrowseForm, #goEditForm{
+        display: block;
+        margin: 25px auto;
+    }
+</style>
+<body>
+<section id="container"></section>
+<button type="button" class="btn btn-default" onclick="goCreateForm()" id="goCreateForm">直接新建</button>
+<button type="button" class="btn btn-default" onclick="goBrowseForm()" id="goBrowseForm">查看</button>
+<button type="button" class="btn btn-default" onclick="goEditForm()" id="goEditForm">编辑</button>
+</body>
+<script
+    src="https://code.jquery.com/jquery-1.12.4.min.js"
+    integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
+    crossorigin="anonymous">
+</script>
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script>
+    var domain = '';
+    var path = '/seeyon/rest/cap4/form/getCapBizConfigs';
+    var url = path;
+    function init(){
+        $.ajax({
+            type:"GET",
+            data:'',
+            url:url,
+            dataType:"json",
+            timeout:"60000",
+            header:{
+                'Content-Type': 'application/json; charset=utf-8',
+                'Accept-Language' : "zh-CN"
+            },
+            success:function(result){
+                getTemplate(result.data.data);
+            },
+            error:function(error){
+                console.log(error)
+            }
+        });
+    }
+
+    function getTemplate(data){
+        var str = '<ul class="list-group">';
+        data.forEach(function(v){
+            str += '<li class="list-group-item" id="'+v.id+'" name="'+v.name+'"><span >'+v.name+'</span></li>';
+        });
+        str += '</ul>';
+        $('#container').append(str);
+    }
+
+    function initEvent(){
+        $('#container').on('click','li',function(){
+            console.log(this);
+            var id = $(this).attr('id');
+            var name = $(this).attr('name');
+            window.location.href = domain + "/seeyon/common/cap4/template/display/pc/business/"+id+"/frame/dist/index.html";
+        });
+    }
+
+    function goCreateForm() {
+//        window.location.href = domain + "/seeyon/common/cap4/template/display/pc/business/"+id+"/frame/dist/index.html";
+        var rightId = '4934368602173165503', moduleId = '-2652479162664269835', moduleType='42';
+        var params='rightId=' + rightId + '&&moduleId=' + moduleId + '&&moduleType=' + moduleType;
+        window.open('/#/create?' + params + '&&opera=0', '_blank', 'width=' + (window.screen.availWidth - 10) + ',height=' + window.screen.availHeight - 70 + ',top=0,left=0,toolbar=no,menubar=no,scrollbars=yes, resizable=no,location=no, status=no');
+    }
+    function goEditForm() {
+//        window.location.href = domain + "/seeyon/common/cap4/template/display/pc/business/"+id+"/frame/dist/index.html";
+        var rightId = '4934368602173165503', moduleId = '-2652479162664269835', moduleType='42';
+        var params='rightId=' + rightId + '&&moduleId=' + moduleId + '&&moduleType=' + moduleType;
+        window.open('/#/edit?' + params + '&&opera=0', '_blank', 'width= '+ (window.screen.availWidth - 10) + ',height=' + window.screen.availHeight - 70 + ',top=0,left=0,toolbar=no,menubar=no,scrollbars=yes, resizable=no,location=no, status=no');
+    }
+    function goBrowseForm() {
+        var rightId = '4934368602173165503', moduleId = '-2652479162664269835', moduleType='42';
+        var params='rightId=' + rightId + '&&moduleId=' + moduleId + '&&moduleType=' + moduleType;
+        window.open('/#/edit?' + params + '&&opera=0', '_blank', 'width= '+ (window.screen.availWidth - 10) + ',height=' + window.screen.availHeight - 70 + ',top=0,left=0,toolbar=no,menubar=no,scrollbars=yes, resizable=no,location=no, status=no');
+    }
+    $(function () {
+        init();
+        initEvent();
+    });
+</script>
+</html>

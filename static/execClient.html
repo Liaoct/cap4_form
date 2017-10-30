@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title> exec iframe function </title>
+</head>
+<body>
+<script type="text/javascript">
+    //    function execIframe(method, params, callBackName) {
+    //        if (typeof execFrame === 'undefined') {
+    //            execFrame = document.createElement('iframe');
+    //            execFrame.name = 'tmpFrame';
+    //            execFrame.src = 'http://10.5.5.231:8080/static/execClient.html?method=' + method + '&&params=' + params + '&&callback=' + callBackName;
+    //            execFrame.style.display = 'none';
+    //            document.body.appendChild(execFrame);
+    //        } else {
+    //            execFrame.src = 'http://10.5.5.231:8080/static/execClient.html?method=' + method + '&&params=' + params + '&&callback=' + callBackName + '&&v=' + Math.random();
+    //        }
+    //    }
+    //    execIframe('saveInfo', 'this is param.', 'callBackName');
+    function getValueByPath(object, prop) {
+        prop = prop || '';
+        const paths = prop.split('.');
+        let current = object;
+        let result = null;
+        for (let i = 0, j = paths.length; i < j; i++) {
+            const path = paths[i];
+            if (!current) break;
+
+            if (i === j - 1) {
+                result = current[path];
+                break;
+            }
+            current = current[path];
+        }
+        return result;
+    }
+    function getUrlParam(name) {
+        const reg = new RegExp("(^|&|#|/?)" + name + "=([^&]*)(&|$)", "i");
+        const r = window.location.href.substr(1).match(reg);
+        if (r != null) {
+            let result = unescape(r[2]);
+            if (result.indexOf('#') > 0) {
+                result = result.slice(0, result.indexOf('#'));
+            }
+            return result;
+        }
+        return null;
+    }
+    var iframeName = getUrlParam('iframeName');
+    var method = getUrlParam('method');
+    var params = getUrlParam('params');
+    var callback = getUrlParam('callback');
+//    callback = getValueByPath(parent, callback); // 获取根据callback名称获取function
+    var func = getValueByPath(parent.window[iframeName], method);
+    func && func(params, callback);
+</script>
+</body>
+</html>
