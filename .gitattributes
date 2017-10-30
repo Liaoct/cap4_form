@@ -1,16 +1,1 @@
 * text=auto !eol
-product/dist/index.html -text
-product/dist/static/css/app.fc2a58a64e6b1bb4deb3373662a6e5d3.css -text
-product/dist/static/css/app.fc2a58a64e6b1bb4deb3373662a6e5d3.css.map -text
-product/dist/static/execClient.html -text
-product/dist/static/execServer.html -text
-product/dist/static/fonts/element-icons.b02bdc1.ttf -text
-product/dist/static/from.js -text
-product/dist/static/js/app.7c270d9b652a24e58884.js -text
-product/dist/static/js/app.7c270d9b652a24e58884.js.map -text
-product/dist/static/js/manifest.70dbccc5da8f540a28bf.js -text
-product/dist/static/js/manifest.70dbccc5da8f540a28bf.js.map -text
-product/dist/static/js/vendor.cde6f91b34f137c213b2.js -text
-product/dist/static/js/vendor.cde6f91b34f137c213b2.js.map -text
-product/dist/static/main.html -text
-product/dist/static/test.html -text
